@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "crew"
+version = "0.1.0"
+description = ""
+authors = ["kevin-v96 <kevinvegda@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+crewai = {version = "^0.41.1", python = ">=3.12,<=3.13"}
+ipykernel = "^6.29.5"
+jupyter = "^1.0.0"
+composio-core = "^0.3.30"
+composio-crewai = "^0.3.30"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
