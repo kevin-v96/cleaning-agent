@@ -12,6 +12,8 @@ I found that out of the three that I tested, CrewAI has the simplest interface a
 
 ## TO-DO
 - [ ] add thread id support for multi-user memory
+- [ ] Add example runs
+- [ ] Add tests
 - [ ] Add FastAPI
 - [ ] Add gradio interface
 - [ ] Add the crew as nodes in a LangGraph graph
@@ -24,3 +26,4 @@ I found that out of the three that I tested, CrewAI has the simplest interface a
 - [How to Build a SQL Agent with CrewAI and Composio](https://www.analyticsvidhya.com/blog/2024/07/sql-agent-with-crewai-and-composio/)
  - [CrewAI Docs](https://docs.crewai.com/)
  - [FastAPI Docs](https://fastapi.tiangolo.com/)
+ - [Pre-commit Docs](https://pre-commit.com/)
