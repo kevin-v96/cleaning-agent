@@ -12,6 +12,7 @@ ipykernel = "^6.29.5"
 jupyter = "^1.0.0"
 composio-core = "^0.3.30"
 composio-crewai = "^0.3.30"
+pre-commit = "^3.8.0"
 
 [build-system]
 requires = ["poetry-core"]
