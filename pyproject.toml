@@ -13,6 +13,11 @@ jupyter = "^1.0.0"
 composio-core = "^0.3.30"
 composio-crewai = "^0.3.30"
 pre-commit = "^3.8.0"
+langgraph = "^0.1.19"
+langchain-community = "^0.2.10"
+langchain-openai = "^0.1.20"
+tavily-python = "^0.3.5"
+pandas = "^2.2.2"
 
 [build-system]
 requires = ["poetry-core"]

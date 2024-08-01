@@ -11,8 +11,8 @@ I checked out a few of the currently popular multi-ai-agent frameworks (CrewAI, 
 I found that out of the three that I tested, CrewAI has the simplest interface and lends itself to simple tasks such as this. Moreover, AutoGen and LangGraph add some (in my opinion) unneccesary complexity to their interface which makes it hard to scale them down for simple tasks (but they, especially LangGraph, might be better for more complex tasks).
 
 ## TO-DO
-- [ ] add thread id support for multi-user memory
-- [ ] Add example runs
+- [ ] add thread id support for multi-user memory - this is only possible with LangGraph. Currently CrewAI doesn't seem to support multiple threads
+- [ ] Add example runs and evaluations
 - [ ] Add tests
 - [ ] Add FastAPI
 - [ ] Add gradio interface
@@ -26,4 +26,5 @@ I found that out of the three that I tested, CrewAI has the simplest interface a
 - [How to Build a SQL Agent with CrewAI and Composio](https://www.analyticsvidhya.com/blog/2024/07/sql-agent-with-crewai-and-composio/)
  - [CrewAI Docs](https://docs.crewai.com/)
  - [FastAPI Docs](https://fastapi.tiangolo.com/)
+ - [LangGraph Docs](https://langchain-ai.github.io/langgraph/tutorials/customer-support/customer-support/)
  - [Pre-commit Docs](https://pre-commit.com/)

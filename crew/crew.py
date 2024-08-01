@@ -27,5 +27,6 @@ class CleaningServiceCrew:
             verbose=True,
             process=Process.sequential,
             memory=True,
+            output_log_file=True,
         )
         crew.kickoff()

@@ -46,4 +46,5 @@ class CleaningServiceAgents:
             verbose=True,
             allow_delegation=False,
             tools=sql_tools,
+            max_iter=10,
         )
