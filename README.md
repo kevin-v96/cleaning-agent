@@ -9,6 +9,7 @@ I checked out a few of the currently popular multi-ai-agent frameworks (CrewAI, 
 I found that out of the three that I tested, CrewAI has the simplest interface and lends itself to simple tasks such as this. Moreover, AutoGen and LangGraph add some (in my opinion) unneccesary complexity to their interface which makes it hard to scale them down for simple tasks (but they, especially LangGraph, might be better for more complex tasks). 
 
 ## TO-DO
+- [ ] add thread id support for multi-user memory
 - [ ] Add FastAPI
 - [ ] Add gradio interface
 - [ ] Add the crew as nodes in a LangGraph graph
