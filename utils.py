@@ -42,4 +42,4 @@ def _print_event(event: dict, _printed: set, max_length=1500):
 
 
 def user_id(state: State):
-    return {"user_id": state.user_id}
+    return {"user_id": state.get("user_id", None)}

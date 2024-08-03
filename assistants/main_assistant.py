@@ -15,7 +15,7 @@ class Assistant:
     def __call__(self, state: State, config: RunnableConfig):
         while True:
             configuration = config.get("configurable", {})
-            user_id = configuration.get("user_id", None)
+            user_id = configuration.get("thread_id", None)
             state = {**state, "user_id": user_id}
             result = self.runnable.invoke(state)
             # If the LLM happens to return an empty response, we will re-prompt it
@@ -97,7 +97,7 @@ primary_assistant_prompt = ChatPromptTemplate.from_messages(
             "Provide detailed information to the customer, and always double-check the database before concluding that information is unavailable. "
             " When searching, be persistent. Expand your query bounds if the first search returns no results. "
             " If a search comes up empty, expand your search before giving up."
-            "\n\nCurrent user flight information:\n<Flights>\n{user_info}\n</Flights>"
+            "\n\nCurrent user id:\n<User>\n{user_id}\n</User>"
             "\nCurrent time: {time}.",
         ),
         ("placeholder", "{messages}"),

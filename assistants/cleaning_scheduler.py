@@ -1,7 +1,7 @@
 from langchain_core.prompts import ChatPromptTemplate
 
 from datetime import datetime
-from tools import check_availability, book_service, cancel_booking
+from .tools import check_availability, book_service, cancel_booking
 
 # Cleaning Scheduler assistant
 cleaning_scheduler_prompt = ChatPromptTemplate.from_messages(

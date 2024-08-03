@@ -1,7 +1,6 @@
 # env
 from dotenv import load_dotenv
 
-import shutil
 import uuid
 
 # langgraph
@@ -42,7 +41,6 @@ from utils import create_tool_node_with_fallback, _print_event, user_id
 load_dotenv()
 
 db = "availabilities.sqlite"
-backup_file = "availabilities.backup.sqlite"
 
 if __name__ == "__main__":
     llm = ChatOpenAI(model="gpt-4o-mini", temperature=1)
@@ -116,8 +114,6 @@ if __name__ == "__main__":
         "I need the cleaning service for 3 hours." "The next available option is great",
     ]
 
-    # Update with the backup file so we can restart from the original place in each section
-    shutil.copy(backup_file, db)
     thread_id = str(uuid.uuid4())
 
     config = {

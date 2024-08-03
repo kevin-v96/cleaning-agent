@@ -1,6 +1,6 @@
 import sqlite3
 
-conn = sqlite3.connect("availabilities.db")
+conn = sqlite3.connect("availabilities.sqlite")
 cursor = conn.cursor()
 
 cursor.execute(
@@ -8,19 +8,17 @@ cursor.execute(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     service TEXT NOT NULL,
-    service_type TEXT NOT NULL,
+    service_length INTEGER,
     next_availability DATETIME NOT NULL)"""
 )
 
 employees = [
-    ("John Doe", "House Cleaning", "3 Hour", "2024-08-01 08:00:00"),
-    ("Jane Doe", "Apartment Cleaning", "4 Hour", "2024-08-03 14:00:00"),
+    ("John Doe", "House Cleaning", 3, "2024-08-01 08:00:00"),
+    ("Jane Doe", "Apartment Cleaning", 4, "2024-08-03 14:00:00"),
 ]
 
 # Insert data into the 'employee' table
-insert_query = (
-    "INSERT INTO availabilities (name, service, next_availability) VALUES (?, ?, ?);"
-)
+insert_query = "INSERT INTO availabilities (name, service, service_length, next_availability) VALUES (?, ?, ?, ?);"
 cursor.executemany(insert_query, employees)
 
 print(cursor.execute("SELECT * FROM availabilities").fetchall())
@@ -32,7 +30,7 @@ conn.commit()
 conn.close()
 
 # bookings table
-conn = sqlite3.connect("bookings.db")
+conn = sqlite3.connect("bookings.sqlite")
 cursor = conn.cursor()
 
 cursor.execute(
