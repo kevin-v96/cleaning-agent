@@ -11,7 +11,7 @@ I checked out a few of the currently popular multi-ai-agent frameworks (CrewAI, 
 I found that out of the three that I tested, CrewAI has the simplest interface and lends itself to simple tasks such as this. Moreover, AutoGen and LangGraph add some (in my opinion) unneccesary complexity to their interface which makes it hard to scale them down for simple tasks (but they, especially LangGraph, are better for more complex tasks especially when it comes to human input interrups).
 
 ## TO-DO
-- [ ] add thread id support for multi-user memory - this is only possible with LangGraph. Currently CrewAI doesn't seem to support multiple threads
+- [x] add thread id support for multi-user memory - this is only possible with LangGraph. Currently CrewAI doesn't seem to support multiple threads
 - [ ] Add example runs and evaluations
 - [ ] Add tests
 - [ ] Add FastAPI
