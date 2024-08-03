@@ -4,7 +4,6 @@ from dotenv import load_dotenv
 import uuid
 
 # langgraph
-from langchain_core.messages import ToolMessage
 from langgraph.checkpoint.sqlite import SqliteSaver
 from langgraph.graph import END, StateGraph, START
 from langchain_openai import ChatOpenAI
@@ -35,8 +34,11 @@ from nodes import (
     route_to_workflow,
 )
 
+# chat
+from chat import run_chat
+
 # utils
-from utils import create_tool_node_with_fallback, _print_event, user_id
+from utils import create_tool_node_with_fallback, user_id
 
 load_dotenv()
 
@@ -107,13 +109,6 @@ if __name__ == "__main__":
         ],
     )
 
-    # Let's create an example conversation a user might have with the assistant
-    tutorial_questions = [
-        "Hi there, what cleaning services are available?",
-        "I need a cleaning service for my home. What are my options?",
-        "I need the cleaning service for 3 hours." "The next available option is great",
-    ]
-
     thread_id = str(uuid.uuid4())
 
     config = {
@@ -126,39 +121,8 @@ if __name__ == "__main__":
     }
 
     _printed = set()
-    for question in tutorial_questions:
-        events = graph.stream(
-            {"messages": ("user", question)}, config, stream_mode="values"
-        )
-        for event in events:
-            _print_event(event, _printed)
-        snapshot = graph.get_state(config)
-        while snapshot.next:
-            # We have an interrupt! The agent is trying to use a tool, and the user can approve or deny it
-            # Note: This code is all outside of your graph. Typically, you would stream the output to a UI.
-            # Then, you would have the frontend trigger a new run via an API call when the user has provided input.
-            user_input = input(
-                "Do you approve of the above actions? Type 'y' to continue;"
-                " otherwise, explain your requested changed.\n\n"
-            )
-            if user_input.strip() == "y":
-                # Just continue
-                result = graph.invoke(
-                    None,
-                    config,
-                )
-            else:
-                # Satisfy the tool invocation by
-                # providing instructions on the requested changes / change of mind
-                result = graph.invoke(
-                    {
-                        "messages": [
-                            ToolMessage(
-                                tool_call_id=event["messages"][-1].tool_calls[0]["id"],
-                                content=f"API call denied by user. Reasoning: '{user_input}'. Continue assisting, accounting for the user's input.",
-                            )
-                        ]
-                    },
-                    config,
-                )
-            snapshot = graph.get_state(config)
+
+    user_input = input(
+        "Hi, I'm a cleaning service booking assistant for Superbench. How can I help you today?\n"
+    )
+    result = run_chat(graph, user_input, config, _printed)

@@ -38,7 +38,7 @@ class CleaningServiceAgents:
 				to customer queries, figuring out what services they need and how to get them the service.
 				You listen with empathy, figure out the customer needs, and if they need cleaning services, tell them the next availability.
                 You do this by running SQL queries to get the availability of the cleaning staff and the customer's preferred time.
-				Connect to the local SQLite DB at connection string = availabilities.db
+				Connect to the local SQLite DB at connection string = availabilities.sqlite and bookings.sqlite.
             	Try to analyze the tables first by listing all the tables and columns
             	and doing distinct values for each column and once sure, make a query to
             	get the data you need."""

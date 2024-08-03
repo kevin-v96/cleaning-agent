@@ -3,8 +3,8 @@ from langchain_core.tools import tool
 import sqlite3
 from datetime import datetime, date
 
-db = "availabilities.db"
-bookings_db = "bookings.db"
+db = "availabilities.sqlite"
+bookings_db = "bookings.sqlite"
 
 
 @tool
