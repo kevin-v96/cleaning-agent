@@ -15,7 +15,7 @@ def run_chat(graph, user_input, config, _printed) -> None:
         # Then, you would have the frontend trigger a new run via an API call when the user has provided input.
         user_input = input(
             "Do you approve of the above actions? Type 'y' to continue;"
-            " otherwise, explain your requested changed.\n\n"
+            " otherwise, explain your requested change.\n\n"
         )
         if user_input.strip() == "y":
             # Just continue

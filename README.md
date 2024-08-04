@@ -1,8 +1,14 @@
 A bot with multiple agents written in CrewAI and LangGraph. It helps route the user to thei required cleaning service. Alternatively, for services we don't have any information for, it informs them that they are being redirected to a human agent.
 
-I've used Poetry for package management, so once poetry is installed on your system, running `poetry install --no-root` will install all the requirements. Then, running `poetry run python runcrew.py` will run the crew on the command line.
+I've used Poetry for package management, so once poetry is installed on your system, running `poetry install --no-root` will install all the requirements.
 
-Aside: `poetry run pre-commit install` will make sure the pre-commit hooks run to accomplish all the tasks like linting, typechecking, etc. You can also run those checks manually with `pre-commit run --all-files`. You can add more pre-commit checks by adding hooks to the `.pre-commit-config.yaml` file.
+## Crew
+ Running `poetry run python runcrew.py` will run the crew on the command line. I started out with a simple crew but found that it didn't have support for threads, which was a requirement for me.
+
+## LangGraph
+Running `poetry run python chat.py` will run the chat with the LangGraph agent.
+
+Aside: `poetry run pre-commit install` will make sure the pre-commit hooks run to accomplish all the tasks like linting, typechecking, etc. You can also run those checks manually with `poetry run pre-commit run --all-files`. You can add more pre-commit checks by adding hooks to the `.pre-commit-config.yaml` file.
 
 I checked out a few of the currently popular multi-ai-agent frameworks (CrewAI, LangGraph, AutoGen) to see what fit this particular task. You can find some of those experimentations here:
 - [GitHub: multi-agent-ai](https://github.com/kevin-v96/multi-agent-ai)
