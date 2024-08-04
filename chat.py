@@ -3,12 +3,15 @@ from utils import _print_event
 
 
 def run_chat(graph, user_input, config, _printed) -> None:
+    state = graph.get_state(config)
+    print(state)
     events = graph.stream(
         {"messages": ("user", str(user_input))}, config, stream_mode="values"
     )
     for event in events:
         _print_event(event, _printed)
     snapshot = graph.get_state(config)
+    result = []
     while snapshot.next:
         # We have an interrupt! The agent is trying to use a tool, and the user can approve or deny it
         # Note: This code is all outside of your graph. Typically, you would stream the output to a UI.

@@ -15,6 +15,12 @@ cursor.execute(
 employees = [
     ("John Doe", "House Cleaning", 3, "2024-08-01 08:00:00"),
     ("Jane Doe", "Apartment Cleaning", 4, "2024-08-03 14:00:00"),
+    ("John Doe", "Plumbing", 3, "2024-08-01 08:00:00"),
+    ("Jane Doe", "Post-renovation Cleaning", 4, "2024-08-03 14:00:00"),
+    ("John Doe", "Holiday Cleaning", 3, "2024-08-01 08:00:00"),
+    ("Jane Doe", "Coloring", 4, "2024-08-03 14:00:00"),
+    ("John Doe", "AC Repair", 3, "2024-08-01 08:00:00"),
+    ("Jane Doe", "Wallpaper", 4, "2024-08-03 14:00:00"),
 ]
 
 # Insert data into the 'employee' table

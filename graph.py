@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 
 
 # langgraph
-from langgraph.checkpoint.aiosqlite import AsyncSqliteSaver
+from langgraph.checkpoint.sqlite import SqliteSaver
 from langgraph.graph import END, StateGraph, START
 from langchain_openai import ChatOpenAI
 
@@ -34,16 +34,15 @@ from nodes import (
 )
 
 # fastapi
-from fastapi import FastAPI
-from fastapi.responses import RedirectResponse
 from langchain_core.pydantic_v1 import BaseModel
-from langserve import add_routes, RemoteRunnable
-import uvicorn
+from langserve import RemoteRunnable
 
 # chat
+from chat import run_chat
+import uuid
 
 # utils
-from utils import create_tool_node_with_fallback, user_id
+from utils import create_tool_node_with_fallback
 from pprint import pprint
 
 load_dotenv()
@@ -84,8 +83,6 @@ if __name__ == "__main__":
     )
 
     builder = StateGraph(State)
-    builder.add_node("fetch_user_id", user_id)
-    builder.add_edge(START, "fetch_user_id")
 
     # Flight booking assistant
     builder.add_node(
@@ -110,6 +107,7 @@ if __name__ == "__main__":
 
     # Primary assistant
     builder.add_node("primary_assistant", Assistant(assistant_runnable))
+    builder.add_edge(START, "primary_assistant")
     builder.add_node(
         "primary_assistant_tools",
         create_tool_node_with_fallback(primary_assistant_tools),
@@ -126,10 +124,10 @@ if __name__ == "__main__":
         },
     )
     builder.add_edge("primary_assistant_tools", "primary_assistant")
-    builder.add_conditional_edges("fetch_user_id", route_to_workflow)
+    builder.add_conditional_edges("primary_assistant", route_to_workflow)
 
     # compile graph
-    memory = AsyncSqliteSaver.from_conn_string(":memory:")
+    memory = SqliteSaver.from_conn_string(":memory:")
     graph = builder.compile(
         checkpointer=memory,
         interrupt_before=[
@@ -137,41 +135,49 @@ if __name__ == "__main__":
         ],
     )
 
-    # thread_id = str(uuid.uuid4())
+    thread_id = str(uuid.uuid4())
 
-    # config = {
-    #     "configurable": {
-    #         # The user_id is used to keep a track of the user we are currently serving. In this case, we are using the thread_id as the user_id
-    #         "user_id": thread_id,
-    #         # Checkpoints are accessed by thread_id
-    #         "thread_id": thread_id,
-    #     }
-    # }
+    config = {
+        "configurable": {
+            # Checkpoints are accessed by thread_id
+            "thread_id": thread_id,
+        }
+    }
 
-    # _printed = set()
+    _printed = set()
 
-    # user_input = input(
-    #    "Hi, I'm a cleaning service booking assistant for Superbench. How can I help you today?\n"
+    # Print the greeting message once
+    print(
+        "Hi, I'm a cleaning service booking assistant for Superbench. How can I help you today?"
+    )
+
+    while True:
+        user_input = input()
+
+        if user_input.lower() in {"exit", "quit"}:
+            print("Goodbye!")
+            break
+
+        # Call run_chat with the current user input and configuration
+        result = run_chat(graph, user_input, config, _printed)
+
+    # app = FastAPI(
+    #     title="Superbench Server",
+    #     version="1.0",
+    #     description="An API server to answer questions about cleaning services",
     # )
-    # result = run_chat(graph, user_input, config, _printed)
 
-    app = FastAPI(
-        title="Superbench Server",
-        version="1.0",
-        description="An API server to answer questions about cleaning services",
-    )
+    # @app.get("/")
+    # async def redirect_root_to_docs():
+    #     return RedirectResponse("/docs")
 
-    @app.get("/")
-    async def redirect_root_to_docs():
-        return RedirectResponse("/docs")
+    # add_routes(
+    #     app,
+    #     graph.with_types(input_type=Input, output_type=Output),
+    #     path="/superbench_chat",
+    # )
 
-    add_routes(
-        app,
-        graph.with_types(input_type=Input, output_type=Output),
-        path="/superbench_chat",
-    )
-
-    uvicorn.run(app, host="localhost", port=8000)
+    # uvicorn.run(app, host="localhost", port=8000)
 
     # # Create the UI In Gradio
     # iface = gr.Interface(fn=get_response,

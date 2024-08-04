@@ -14,7 +14,7 @@ cleaning_scheduler_prompt = ChatPromptTemplate.from_messages(
             " When searching, be persistent. Expand your query bounds if the first search returns no results. "
             "If you need more information or the customer changes their mind, escalate the task back to the main assistant."
             " Remember that a booking isn't completed until after the relevant tool has successfully been used."
-            "\n\nCurrent user id:\n<User>\n{user_id}\n</User>"
+            "\n\nCurrent user id:\n<User>\n{thread_id}\n</User>"
             "\nCurrent time: {time}."
             "\n\nIf the user needs help, and none of your tools are appropriate for it, then"
             ' "CompleteOrEscalate" the dialog to the host assistant. Do not waste the user\'s time. Do not make up invalid tools or functions.',

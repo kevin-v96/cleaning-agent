@@ -4,3 +4,4 @@ poetry.lock
 *.db
 .env
 *.sqlite
+.vscode
