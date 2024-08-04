@@ -5,3 +5,4 @@ poetry.lock
 .env
 *.sqlite
 .vscode
+*.ipynb
