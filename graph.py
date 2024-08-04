@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 
 
 # langgraph
-from langgraph.checkpoint.sqlite.aio import AsyncSqliteSaver
+from langgraph.checkpoint.aiosqlite import AsyncSqliteSaver
 from langgraph.graph import END, StateGraph, START
 from langchain_openai import ChatOpenAI
 
