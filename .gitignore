@@ -6,3 +6,5 @@ poetry.lock
 *.sqlite
 .vscode
 *.ipynb
+/dev
+.ruff_cache

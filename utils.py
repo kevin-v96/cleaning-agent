@@ -8,14 +8,13 @@ def handle_tool_error(state) -> dict:
     error = state.get("error")
     tool_calls = state["messages"][-1].tool_calls
     return {
-        **state,
         "messages": [
             ToolMessage(
                 content=f"Error: {repr(error)}\n please fix your mistakes.",
                 tool_call_id=tc["id"],
             )
             for tc in tool_calls
-        ],
+        ]
     }
 
 
@@ -27,7 +26,6 @@ def create_tool_node_with_fallback(tools: list) -> dict:
 
 def _print_event(event: dict, _printed: set, max_length=1500):
     current_state = event.get("dialog_state")
-    print(current_state)
     if current_state:
         print("Currently in: ", current_state[-1])
     message = event.get("messages")

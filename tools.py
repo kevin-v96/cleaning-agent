@@ -1,9 +1,9 @@
 from typing import Optional, Union
 from langchain_core.tools import tool
-import sqlite3
 from datetime import datetime, date
+import sqlite3
 
-db = "availabilities.sqlite"
+availabilities_db = "availabilities.sqlite"
 bookings_db = "bookings.sqlite"
 
 
@@ -22,10 +22,10 @@ def check_availability(
     Returns:
         list[dict]: A list of next availabilities for the type of cleaning service required by the user.
     """
-    conn = sqlite3.connect(db)
+    conn = sqlite3.connect(availabilities_db)
     cursor = conn.cursor()
 
-    query = "SELECT * FROM availabilities WHERE service = ?"
+    query = "SELECT * FROM availabilities WHERE service LIKE ?"
     params = []
     params.append(f"%{service_required}%")
 
@@ -93,7 +93,7 @@ def cancel_booking(booking_id: int) -> str:
     Returns:
         str: A message indicating whether the booking was successfully cancelled or not.
     """
-    conn = sqlite3.connect(db)
+    conn = sqlite3.connect(bookings_db)
     cursor = conn.cursor()
 
     cursor.execute("DELETE FROM bookings WHERE id = ?", (booking_id,))
