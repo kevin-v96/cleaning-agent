@@ -6,7 +6,7 @@ I've used Poetry for package management, so once poetry is installed on your sys
  Running `poetry run python runcrew.py` will run the crew on the command line. I started out with a simple crew but found that it didn't have support for threads, which was a requirement for me.
 
 ## LangGraph
-Running `poetry run python chat.py` will run the chat with the LangGraph agent.
+Running `poetry run python main.py` will run the chat with the LangGraph agent.
 
 Aside: `poetry run pre-commit install` will make sure the pre-commit hooks run to accomplish all the tasks like linting, typechecking, etc. You can also run those checks manually with `poetry run pre-commit run --all-files`. You can add more pre-commit checks by adding hooks to the `.pre-commit-config.yaml` file.
 
