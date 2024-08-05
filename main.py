@@ -7,13 +7,16 @@ from assistants import (
     State,
 )
 from langchain_openai import ChatOpenAI
-from utils import create_tool_node_with_fallback, _print_event
+from utils import create_tool_node_with_fallback
 from typing import Literal
 from langgraph.checkpoint.sqlite import SqliteSaver
 from langgraph.graph import StateGraph, START, END
 from langgraph.prebuilt import tools_condition
 import uuid
-from langchain_core.messages import ToolMessage
+from langchain_core.messages import HumanMessage
+from fastapi import FastAPI
+from fastapi.responses import RedirectResponse
+from pydantic import BaseModel
 
 llm = ChatOpenAI(model="gpt-4o-mini")
 
@@ -66,47 +69,32 @@ config = {
     }
 }
 
-_printed = set()
-# We can reuse the tutorial questions from part 1 to see how it does.
-print(
-    "I'm a helpful customer support assistant for Superbench, a home services AI company."
-)
-while True:
-    user_input = input("User: type your input or type 'q' to quit.\n")
-    if user_input.strip() == "q":
-        break
-    events = graph.stream(
-        {"messages": ("user", user_input)}, config, stream_mode="values"
+
+def respond_to_user(graph, user_input, thread_id):
+    final_state = graph.invoke(
+        {"messages": [HumanMessage(content=user_input)]},
+        config={"configurable": {"thread_id": thread_id}},
     )
-    for event in events:
-        _print_event(event, _printed)
-    snapshot = graph.get_state(config)
-    while snapshot.next:
-        user_input = input(
-            "Do you approve of the above actions? Type 'y' to continue;"
-            " otherwise, explain your requested changed.\n\n"
-        )
-        if user_input.strip() == "y":
-            # Just continue
-            result = graph.invoke(
-                None,
-                config,
-            )
-            print(
-                "Thanks for confirming! I was able to successfully accomplish what you asked me to."
-            )
-        else:
-            # Satisfy the tool invocation by
-            # providing instructions on the requested changes / change of mind
-            result = graph.invoke(
-                {
-                    "messages": [
-                        ToolMessage(
-                            tool_call_id=event["messages"][-1].tool_calls[0]["id"],
-                            content=f"API call denied by user. Reasoning: '{user_input}'. Continue assisting, accounting for the user's input.",
-                        )
-                    ]
-                },
-                config,
-            )
-        snapshot = graph.get_state(config)
+
+    return final_state["messages"][-1].content
+
+
+app = FastAPI()
+
+
+class Message(BaseModel):
+    user_id: str
+    content: str
+
+
+@app.get("/")
+def read_root():
+    return RedirectResponse(url="/docs")
+
+
+@app.post("/chatbot/")
+def chatbot(message: Message):
+    return {
+        "response": respond_to_user(graph, message.content, message.user_id),
+        "user_id": message.user_id,
+    }
