@@ -24,7 +24,7 @@ I'm adding some runs during development here:
 - [x] add thread id support for multi-user memory - this is only possible with LangGraph. Currently CrewAI doesn't seem to support multiple threads
 - [x] Add example runs
 - [ ] Add Evaluations
-- [ ] Add FastAPI
+- [x] Add FastAPI
 ### Longer-term TO-DOs
 - [ ] Add gradio interface
 - [ ] Add the crew as nodes in a LangGraph graph
