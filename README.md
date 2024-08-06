@@ -18,7 +18,7 @@ I checked out a few of the currently popular multi-ai-agent frameworks (CrewAI, 
 I found that out of the three that I tested, CrewAI has the simplest interface and lends itself to simple tasks such as this. Moreover, AutoGen and LangGraph add some (in my opinion) unneccesary complexity to their interface which makes it hard to scale them down for simple tasks (but they, especially LangGraph, are better for more complex tasks especially when it comes to human input interrupts).
 
 ## Evaluation
-
+To run evals run `poetry run python eval.py`. Currently there's only one conversation that is simulated, but I'm adding more + LangSmith-based evals used for red-teaming the agent.
 
 ## TO-DO
 - [x] add thread id support for multi-user memory
