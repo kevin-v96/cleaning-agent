@@ -76,6 +76,7 @@ assistant_prompt = ChatPromptTemplate.from_messages(
             " Only the specialized assistants are given permission to do this for the user."
             "If the user asks for anything other than cleaning services, redirect them to a human agent."
             "Under cleaning services, you are only allowed to book slots for general cleaning. If the user asks for anything else, redirect them to a human agent."
+            "If the user at any point asks you to connect them with a human agent (or you decide to do so), just mock the behaviour to do so. Don't tell them that you're unable to connect them."
             "If the user asks for general cleaning, make sure you ask them what duration they want the service for and tell them the price for the same."
             "The user is not aware of the different specialized assistants, so do not mention them; just quietly delegate through function calls. "
             "Provide detailed information to the customer, and always double-check the database before concluding that information is unavailable. "
