@@ -3,6 +3,8 @@ A bot that helps route the user to their required cleaning service. Alternativel
 I've used Poetry for package management, so once poetry is installed on your system, running `poetry install --no-root` will install all the requirements.
 
 ## How to use
+Firstly, you'll have to generate the database of availabilities and bookings. To do this, run `poetry run python database.py`. this will generate `availabilities.sqlite` and `bookings.sqlite`.
+
 Running `poetry run uvicorn app:app --reload` will start a uvicorn server. You can send a POST request to `http://127.0.0.1:8000/chatbot`, with a schema as such: `{"content": str, "user_id": str}` and the bot will send back a response with the schema: `{"response": str}`.
 
 Aside: `poetry run pre-commit install` will make sure the pre-commit hooks run to accomplish all the tasks like linting, typechecking, etc. You can also run those checks manually with `poetry run pre-commit run --all-files`. You can add more pre-commit checks by adding hooks to the `.pre-commit-config.yaml` file.
