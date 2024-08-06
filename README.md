@@ -6,7 +6,7 @@ I've used Poetry for package management, so once poetry is installed on your sys
  Running `poetry run python runcrew.py` will run the crew on the command line. I started out with a simple crew but found that it didn't have support for threads, which was a requirement for me.
 
 ## LangGraph
-Running `poetry run python main.py` will run the chat with the LangGraph agent.
+Running `poetry run uvicorn main:app --reload` will start a uvicorn server. You can send a POST request to `http://127.0.0.1:8000/chatbot`, with a schema as such: `{"content": str, "user_id": str}` and the bot will send back a response with the schema: `{"response": str}`.
 
 Aside: `poetry run pre-commit install` will make sure the pre-commit hooks run to accomplish all the tasks like linting, typechecking, etc. You can also run those checks manually with `poetry run pre-commit run --all-files`. You can add more pre-commit checks by adding hooks to the `.pre-commit-config.yaml` file.
 
@@ -14,17 +14,18 @@ I checked out a few of the currently popular multi-ai-agent frameworks (CrewAI, 
 - [GitHub: multi-agent-ai](https://github.com/kevin-v96/multi-agent-ai)
 - [GitHub: multi-agent-ai-tutorials](https://github.com/kevin-v96/multi-agent-ai-tutorials)
 
-I found that out of the three that I tested, CrewAI has the simplest interface and lends itself to simple tasks such as this. Moreover, AutoGen and LangGraph add some (in my opinion) unneccesary complexity to their interface which makes it hard to scale them down for simple tasks (but they, especially LangGraph, are better for more complex tasks especially when it comes to human input interrups).
+I found that out of the three that I tested, CrewAI has the simplest interface and lends itself to simple tasks such as this. Moreover, AutoGen and LangGraph add some (in my opinion) unneccesary complexity to their interface which makes it hard to scale them down for simple tasks (but they, especially LangGraph, are better for more complex tasks especially when it comes to human input interrupts).
 
 ## Example Runs
 I'm adding some runs during development here:
 ![Simple output asking for house cleaning on a particular date](images/simple_output.png)
 
 ## TO-DO
-- [x] add thread id support for multi-user memory - this is only possible with LangGraph. Currently CrewAI doesn't seem to support multiple threads
+- [x] add thread id support for multi-user memory
+- [x] Add FastAPI
 - [x] Add example runs
 - [ ] Add Evaluations
-- [x] Add FastAPI
+- [ ] Red-teaming the bot
 ### Longer-term TO-DOs
 - [ ] Add gradio interface
 - [ ] Add the crew as nodes in a LangGraph graph

@@ -3,8 +3,10 @@ from assistants import (
     sensitive_tools,
     safe_tools,
     assistant_prompt,
+    ToAskHumanAgent,
     Assistant,
     State,
+    redirect_to_human,
 )
 from langchain_openai import ChatOpenAI
 from utils import create_tool_node_with_fallback
@@ -28,10 +30,14 @@ builder.add_node("assistant", Assistant(assistant_runnable))
 builder.add_edge(START, "assistant")
 builder.add_node("safe_tools", create_tool_node_with_fallback(safe_tools))
 builder.add_node("sensitive_tools", create_tool_node_with_fallback(sensitive_tools))
+builder.add_node("ask_human_agent", redirect_to_human)
+builder.add_edge("ask_human_agent", END)
 
 
 # Define logic
-def route_tools(state: State) -> Literal["safe_tools", "sensitive_tools", "__end__"]:
+def route_tools(
+    state: State,
+) -> Literal["ask_human_agent", "safe_tools", "sensitive_tools", "__end__"]:
     next_node = tools_condition(state)
     # If no tools are invoked, return to the user
     if next_node == END:
@@ -42,12 +48,20 @@ def route_tools(state: State) -> Literal["safe_tools", "sensitive_tools", "__end
     first_tool_call = ai_message.tool_calls[0]
     if first_tool_call["name"] in sensitive_tool_names:
         return "sensitive_tools"
+    elif first_tool_call["name"] == ToAskHumanAgent.__name__:
+        return "ask_human_agent"
     return "safe_tools"
 
 
 builder.add_conditional_edges(
     "assistant",
     route_tools,
+    {
+        "safe_tools": "safe_tools",
+        "sensitive_tools": "sensitive_tools",
+        "ask_human_agent": "ask_human_agent",
+        END: END,
+    },
 )
 builder.add_edge("safe_tools", "assistant")
 builder.add_edge("sensitive_tools", "assistant")
@@ -70,11 +84,19 @@ config = {
 }
 
 
-def respond_to_user(graph, user_input, thread_id):
-    final_state = graph.invoke(
-        {"messages": [HumanMessage(content=user_input)]},
-        config={"configurable": {"thread_id": thread_id}},
-    )
+def respond_to_user(graph, message):
+    config = {"configurable": {"thread_id": message.user_id}}
+    if message.content.lower() == "y":
+        final_state = graph.invoke(None, config)
+    else:
+        final_state = graph.invoke(
+            {"messages": [HumanMessage(content=message.content)]},
+            config,
+        )
+
+    snapshot = graph.get_state(config)
+    if snapshot.next and snapshot.next[0] == "sensitive_tools":
+        return "Please confirm the action by responding with 'y'."
 
     return final_state["messages"][-1].content
 
@@ -95,6 +117,5 @@ def read_root():
 @app.post("/chatbot/")
 def chatbot(message: Message):
     return {
-        "response": respond_to_user(graph, message.content, message.user_id),
-        "user_id": message.user_id,
+        "response": respond_to_user(graph, message),
     }
