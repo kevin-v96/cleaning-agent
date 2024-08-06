@@ -8,6 +8,9 @@ from pydantic import BaseModel
 
 # utils
 from graph import build_graph
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 class Message(BaseModel):
