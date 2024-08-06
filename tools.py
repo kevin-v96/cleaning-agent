@@ -1,7 +1,11 @@
-from typing import Optional, Union
+# langchain
 from langchain_core.tools import tool
-from datetime import datetime, date
+
+# db
 import sqlite3
+
+from typing import Optional, Union
+from datetime import datetime, date
 
 availabilities_db = "availabilities.sqlite"
 bookings_db = "bookings.sqlite"

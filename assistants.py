@@ -1,13 +1,15 @@
-from typing import Annotated
-
+# langchain
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import Runnable, RunnableConfig
+from langchain_core.messages import AIMessage
+from langgraph.graph.message import AnyMessage, add_messages
+
+from typing import Annotated
 from typing_extensions import TypedDict
 from datetime import datetime
-from langchain_core.messages import AIMessage
 from pydantic import BaseModel, Field
 
-from langgraph.graph.message import AnyMessage, add_messages
+# utils
 from tools import check_availability, book_service, cancel_booking
 
 
@@ -85,11 +87,6 @@ assistant_prompt = ChatPromptTemplate.from_messages(
     ]
 ).partial(time=datetime.now())
 
-
-# "Read"-only tools (such as retrievers) don't need a user confirmation to use
 safe_tools = [check_availability]
-
-# These tools all change the user's reservations.
-# The user has the right to control what decisions are made
 sensitive_tools = [book_service, cancel_booking]
 sensitive_tool_names = {t.name for t in sensitive_tools}
