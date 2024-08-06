@@ -11,7 +11,7 @@ cursor.execute(
     name TEXT NOT NULL,
     service TEXT NOT NULL,
     service_length INTEGER NOT NULL,
-    next_availability DATETIME NOT NULL)
+    next_availability DATETIME NOT NULL,
     price INTEGER NOT NULL)"""
 )
 
@@ -63,7 +63,7 @@ cursor.execute(
     user_id INTEGER NOT NULL,
     worker_id INTEGER NOT NULL,
     service_required TEXT NOT NULL,
-    required_date DATETIME
+    required_date DATETIME,
     service_length_required INTEGER)"""
 )
 
