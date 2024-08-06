@@ -1,11 +1,8 @@
-A bot with multiple agents written in CrewAI and LangGraph. It helps route the user to thei required cleaning service. Alternatively, for services we don't have any information for, it informs them that they are being redirected to a human agent.
+A bot that helps route the user to their required cleaning service. Alternatively, for services we don't have any information for, it informs them that they are being redirected to a human agent.
 
 I've used Poetry for package management, so once poetry is installed on your system, running `poetry install --no-root` will install all the requirements.
 
-## Crew
- Running `poetry run python runcrew.py` will run the crew on the command line. I started out with a simple crew but found that it didn't have support for threads, which was a requirement for me.
-
-## LangGraph
+## How to user
 Running `poetry run uvicorn main:app --reload` will start a uvicorn server. You can send a POST request to `http://127.0.0.1:8000/chatbot`, with a schema as such: `{"content": str, "user_id": str}` and the bot will send back a response with the schema: `{"response": str}`.
 
 Aside: `poetry run pre-commit install` will make sure the pre-commit hooks run to accomplish all the tasks like linting, typechecking, etc. You can also run those checks manually with `poetry run pre-commit run --all-files`. You can add more pre-commit checks by adding hooks to the `.pre-commit-config.yaml` file.
