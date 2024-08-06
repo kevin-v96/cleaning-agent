@@ -16,6 +16,7 @@ from assistants import (
     Assistant,
     State,
     redirect_to_human,
+    user_id,
 )
 from utils import create_tool_node_with_fallback
 
@@ -45,8 +46,11 @@ def build_graph():
     assistant_runnable = assistant_prompt | llm.bind_tools(safe_tools + sensitive_tools)
     builder = StateGraph(State)
 
+    builder.add_node("fetch_user_id", user_id)
+    builder.add_edge(START, "fetch_user_id")
+
     builder.add_node("assistant", Assistant(assistant_runnable))
-    builder.add_edge(START, "assistant")
+    builder.add_edge("fetch_user_id", "assistant")
     builder.add_node("safe_tools", create_tool_node_with_fallback(safe_tools))
     builder.add_node("sensitive_tools", create_tool_node_with_fallback(sensitive_tools))
     builder.add_node("ask_human_agent", redirect_to_human)

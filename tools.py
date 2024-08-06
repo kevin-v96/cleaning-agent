@@ -48,6 +48,36 @@ def check_availability(
 
 
 @tool
+def check_bookings(
+    user_id: int,
+) -> list[dict]:
+    """
+    Search for the bookings by a certain user.
+
+    Args:
+        user_id (int): The ID of the user who is checking for their bookings.
+
+    Returns:
+        list[dict]: A list of bookings by the user.
+    """
+    conn = sqlite3.connect(bookings_db)
+    cursor = conn.cursor()
+
+    query = "SELECT * FROM bookings WHERE user_id = ?"
+    params = []
+    params.append(f"%{user_id}%")
+
+    cursor.execute(query, params)
+    results = cursor.fetchall()
+
+    conn.close()
+
+    return [
+        dict(zip([column[0] for column in cursor.description], row)) for row in results
+    ]
+
+
+@tool
 def book_service(
     user_id: int,
     worker_id: int,

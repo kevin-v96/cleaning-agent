@@ -2,7 +2,7 @@ import sqlite3
 import random
 from datetime import datetime, timedelta
 
-conn = sqlite3.connect("availabilities.db")
+conn = sqlite3.connect("availabilities.sqlite")
 cursor = conn.cursor()
 
 cursor.execute(
@@ -54,7 +54,7 @@ conn.commit()
 conn.close()
 
 # bookings table
-conn = sqlite3.connect("bookings.db")
+conn = sqlite3.connect("bookings.sqlite")
 cursor = conn.cursor()
 
 cursor.execute(

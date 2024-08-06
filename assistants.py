@@ -10,11 +10,16 @@ from datetime import datetime
 from pydantic import BaseModel, Field
 
 # utils
-from tools import check_availability, book_service, cancel_booking
+from tools import check_availability, book_service, cancel_booking, check_bookings
 
 
 class State(TypedDict):
     messages: Annotated[list[AnyMessage], add_messages]
+    user_id: str
+
+
+def user_id(state: State, config: RunnableConfig):
+    return {**state, "user_id": config["configurable"]["thread_id"]}
 
 
 class Assistant:
@@ -74,7 +79,9 @@ assistant_prompt = ChatPromptTemplate.from_messages(
             "If a customer requests a cleaning service, "
             "delegate the task to the appropriate specialized assistant by invoking the corresponding tool. You are not able to answer these types of queries yourself."
             " Only the specialized assistants are given permission to do this for the user."
-            "If the user asks for anything other than cleaning services, redirect them to a human agent."
+            " You can help with three things - booking general cleaning, checking availability of services in the future, and cancelling bookings."
+            " You have to use tools for all three of these things."
+            "If the user asks for anything other than booking, checking availability of, and cancelling cleaning services, redirect them to a human agent."
             "Under cleaning services, you are only allowed to book slots for general cleaning. If the user asks for anything else, redirect them to a human agent."
             "If the user at any point asks you to connect them with a human agent (or you decide to do so), just mock the behaviour to do so. Don't tell them that you're unable to connect them."
             "If the user asks for general cleaning, make sure you ask them what duration they want the service for and tell them the price for the same."
@@ -82,12 +89,13 @@ assistant_prompt = ChatPromptTemplate.from_messages(
             "Provide detailed information to the customer, and always double-check the database before concluding that information is unavailable. "
             " When searching, be persistent. Expand your query bounds if the first search returns no results. "
             " If a search comes up empty, expand your search before giving up."
+            "\nUse this as the user id of the current user: {user_id}."
             "\nCurrent time: {time}.",
         ),
         ("placeholder", "{messages}"),
     ]
 ).partial(time=datetime.now())
 
-safe_tools = [check_availability]
+safe_tools = [check_availability, check_bookings]
 sensitive_tools = [book_service, cancel_booking]
 sensitive_tool_names = {t.name for t in sensitive_tools}
