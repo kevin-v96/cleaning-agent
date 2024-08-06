@@ -32,16 +32,17 @@ def respond_to_user(graph, message):
     return final_state["messages"][-1].content
 
 
-if __name__ == "__main__":
-    graph = build_graph()
-    app = FastAPI()
+app = FastAPI()
+graph = build_graph()
 
-    @app.get("/")
-    def read_root():
-        return RedirectResponse(url="/docs")
 
-    @app.post("/chatbot/")
-    def chatbot(message: Message):
-        return {
-            "response": respond_to_user(graph, message),
-        }
+@app.get("/")
+def read_root():
+    return RedirectResponse(url="/docs")
+
+
+@app.post("/chatbot/")
+def chatbot(message: Message):
+    return {
+        "response": respond_to_user(graph, message),
+    }
