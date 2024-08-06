@@ -17,15 +17,13 @@ I checked out a few of the currently popular multi-ai-agent frameworks (CrewAI, 
 
 I found that out of the three that I tested, CrewAI has the simplest interface and lends itself to simple tasks such as this. Moreover, AutoGen and LangGraph add some (in my opinion) unneccesary complexity to their interface which makes it hard to scale them down for simple tasks (but they, especially LangGraph, are better for more complex tasks especially when it comes to human input interrupts).
 
-## Example Runs
-I'm adding some runs during development here:
-![Simple output asking for house cleaning on a particular date](images/simple_output.png)
+## Evaluation
+
 
 ## TO-DO
 - [x] add thread id support for multi-user memory
 - [x] Add FastAPI
-- [x] Add example runs
-- [ ] Add Evaluations
+- [x] Add Evaluations
 - [ ] Red-teaming the bot
 ### Longer-term TO-DOs
 - [ ] Add gradio interface
@@ -43,3 +41,4 @@ I'm adding some runs during development here:
  - [Pre-commit Docs](https://pre-commit.com/)
  - [LangServe Docs](https://python.langchain.com/v0.2/docs/langserve/)
  - [Example of using CrewAI and LangGraph together](https://github.com/crewAIInc/crewAI-examples/tree/main/CrewAI-LangGraph)
+ - [Chatbot Evaluation](https://langchain-ai.github.io/langgraph/tutorials/chatbot-simulation-evaluation/agent-simulation-evaluation/)
