@@ -26,9 +26,9 @@ To run evals run `poetry run python eval.py`. Currently there's only one convers
 - [x] add thread id support for multi-user memory
 - [x] Add FastAPI
 - [x] Add Evaluations
-- [ ] Red-teaming the bot
+- [ ] Red-teaming the bot - in progress
 ### Longer-term TO-DOs
-- [ ] Add gradio interface
+- [x] Add gradio interface
 - [ ] Add the crew as nodes in a LangGraph graph
 - [ ] Add containerization
 
