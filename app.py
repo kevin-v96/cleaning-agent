@@ -19,7 +19,7 @@ class Message(BaseModel):
 
 
 def respond_to_user(graph, message):
-    user_id, message_content = message["user_id"], message["content"]
+    user_id, message_content = message.user_id, message.content
     config = {"configurable": {"thread_id": user_id}}
     if message_content.lower() == "y":
         final_state = graph.invoke(None, config)

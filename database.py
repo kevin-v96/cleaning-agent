@@ -19,7 +19,7 @@ cursor.execute(
 # Function to generate a random future datetime
 def generate_future_datetime():
     now = datetime.now()
-    days_in_future = random.randint(1, 30)  # Random number of days between 1 and 30
+    days_in_future = random.randint(1, 120)  # Random number of days between 1 and 30
     hours_in_future = random.randint(0, 23)  # Random number of hours between 0 and 23
     minutes_in_future = random.randint(
         0, 59
@@ -30,15 +30,44 @@ def generate_future_datetime():
     return future_datetime.strftime("%Y-%m-%d %H:%M:%S")
 
 
+def generate_task():
+    tasks = [
+        "House Cleaning",
+        "Regular Cleaning",
+        "Deep Cleaning",
+        "Laundry Service",
+        "Plumbing Service",
+        "Electrical Service",
+        "Gardening Service",
+    ]
+    return random.choice(tasks)
+
+
+def generate_name():
+    names = [
+        "John Doe",
+        "Jane Doe",
+        "Alice",
+        "Bob",
+        "Charlie",
+        "David",
+        "Eve",
+        "Frank",
+        "Grace",
+        "Heidi",
+    ]
+    return random.choice(names)
+
+
 employees = [
-    ("John Doe", "House Cleaning", 3, generate_future_datetime(), 100),
-    ("Jane Doe", "Regular Cleaning", 4, generate_future_datetime(), 125),
-    ("John Doe", "House Cleaning", 3, generate_future_datetime(), 95),
-    ("Jane Doe", "Regular Cleaning", 4, generate_future_datetime(), 75),
-    ("John Doe", "House Cleaning", 3, generate_future_datetime(), 105),
-    ("Jane Doe", "Regular Cleaning", 4, generate_future_datetime(), 98),
-    ("John Doe", "House Cleaning", 3, generate_future_datetime(), 30),
-    ("Jane Doe", "Regular Cleaning", 4, generate_future_datetime(), 125),
+    (
+        generate_name(),
+        generate_task(),
+        random.randint(1, 10),
+        generate_future_datetime(),
+        random.randint(50, 300),
+    )
+    for i in range(50)
 ]
 
 # Insert data into the 'employee' table
