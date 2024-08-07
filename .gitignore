@@ -8,3 +8,4 @@ poetry.lock
 *.ipynb
 /dev
 .ruff_cache
+/gradio_cached_examples
