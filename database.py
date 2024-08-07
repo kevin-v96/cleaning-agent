@@ -89,7 +89,7 @@ cursor = conn.cursor()
 cursor.execute(
     """CREATE TABLE IF NOT EXISTS bookings (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    user_id INTEGER NOT NULL,
+    user_id TEXT NOT NULL,
     worker_id INTEGER NOT NULL,
     service_required TEXT NOT NULL,
     required_date DATETIME,

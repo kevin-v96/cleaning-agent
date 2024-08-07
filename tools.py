@@ -49,13 +49,13 @@ def check_availability(
 
 @tool
 def check_bookings(
-    user_id: int,
+    user_id: str,
 ) -> list[dict]:
     """
     Search for the bookings by a certain user.
 
     Args:
-        user_id (int): The ID of the user who is checking for their bookings.
+        user_id (str): The ID of the user who is checking for their bookings - this is part of the state.
 
     Returns:
         list[dict]: A list of bookings by the user.
@@ -79,7 +79,7 @@ def check_bookings(
 
 @tool
 def book_service(
-    user_id: int,
+    user_id: str,
     worker_id: int,
     service_required: Optional[str] = "House Cleaning",
     required_date: Optional[Union[datetime, date]] = None,
@@ -89,8 +89,8 @@ def book_service(
     Book a service for a particular customer.
 
     Args:
-        user_id (int): The ID of the user who is making a booking.
-        worker_id (int): The ID of the worker whose service is required.
+        user_id (str): The ID of the user who is making a booking - this is part of the state.
+        worker_id (int): The ID of the worker whose service is required - this comes from the availabilities database primary key.
         service_required (Optional[str]): The kind of service required by the user. Defaults to House Cleaning.
         required_date (Optional[Union[datetime, date]]): The date and time when the service is required. Defaults to None.
         service_length_required (Optional[int]): The length of time for which the service is required.
@@ -122,7 +122,7 @@ def cancel_booking(booking_id: int) -> str:
     Cancel a home service booking by its ID.
 
     Args:
-        booking_id (int): The ID of the booking to cancel.
+        booking_id (int): The ID of the booking to cancel - this is the primary key of the bookings table.
 
     Returns:
         str: A message indicating whether the booking was successfully cancelled or not.
