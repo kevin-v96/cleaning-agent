@@ -9,6 +9,8 @@ Firstly, you'll have to generate the database of availabilities and bookings. To
 
 Running `poetry run uvicorn app:app --reload` will start a uvicorn server. You can send a POST request to `http://127.0.0.1:8000/chatbot`, with a schema as such: `{"content": str, "user_id": str}` and the bot will send back a response with the schema: `{"response": str}`.
 
+You could also start a local gradio app by running `poetry run python grinterface.py` and then chat with the agent that way.
+
 Aside: `poetry run pre-commit install` will make sure the pre-commit hooks run to accomplish all the tasks like linting, typechecking, etc. You can also run those checks manually with `poetry run pre-commit run --all-files`. You can add more pre-commit checks by adding hooks to the `.pre-commit-config.yaml` file.
 
 I checked out a few of the currently popular multi-ai-agent frameworks (CrewAI, LangGraph, AutoGen) to see what fit this particular task. You can find some of those experimentations here:
