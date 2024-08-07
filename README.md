@@ -20,17 +20,23 @@ I checked out a few of the currently popular multi-ai-agent frameworks (CrewAI, 
 I found that out of the three that I tested, CrewAI has the simplest interface and lends itself to simple tasks such as this. Moreover, AutoGen and LangGraph add some (in my opinion) unneccesary complexity to their interface which makes it hard to scale them down for simple tasks (but they, especially LangGraph, are better for more complex tasks especially when it comes to human input interrupts).
 
 ## Evaluation
-To run evals run `poetry run python eval.py`. Currently there's only one conversation that is simulated, but I'm adding more + LangSmith-based evals used for red-teaming the agent.
+To run evals run `poetry run python red_teaming.py`. You can access the red teaming evaluation on [LangSmith](https://smith.langchain.com/public/e7fff5a8-6c3c-48f2-8fce-eb1439bbc864/d). As you can see there, our agent resisted the red teaming attempts with a success rate of 0.82, which is not bad for a start and tells us that our agent is worth iterating upon to work out the kinks.
 
 ## TO-DO
 - [x] add thread id support for multi-user memory
 - [x] Add FastAPI
 - [x] Add Evaluations
-- [ ] Red-teaming the bot - in progress
+- [x] Red-teaming the bot
 ### Longer-term TO-DOs
 - [x] Add gradio interface
-- [ ] Add the crew as nodes in a LangGraph graph
+- [ ] Fix cancellation workflow - exact input to the tools
 - [ ] Add containerization
+- [ ] Add unit tests for the database tools
+- [ ] More robust evaluations
+### Proposed improvements
+- [ ] More robust confirmation flow/user journey
+- [ ] Add a CrewAI Crew as nodes in LangGraph (since CrewAI crews are Runnables)
+- [ ] Divide the workflow into more specialised agents, which was not needed here since they can individually run into infinite recursions if the correct params are not set
 
 ## References
 - [Creating a Multi-Agent Chatbot Using AutoGen: An End-to-End Guide](https://blog.arjun-g.com/creating-a-multi-agent-chatbot-using-autogen-an-end-to-end-guide-78b6671a96b4)
