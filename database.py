@@ -1,6 +1,9 @@
 import sqlite3
 import random
 from datetime import datetime, timedelta
+from dotenv import load_dotenv
+
+load_dotenv()
 
 conn = sqlite3.connect("availabilities.sqlite")
 cursor = conn.cursor()
