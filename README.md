@@ -1,5 +1,7 @@
 A bot that helps route the user to their required cleaning service. Alternatively, for services we don't have any information for, it informs them that they are being redirected to a human agent.
 
+Add your OpenAI and Langchain API keys to the `.env.example` file and rename it to `.env`.
+
 I've used Poetry for package management, so once poetry is installed on your system, running `poetry install --no-root` will install all the requirements.
 
 ## How to use
